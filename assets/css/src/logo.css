@@ -1,19 +1,80 @@
+/* inslopnia lockup: eye-and-sun mark + wordmark (template: header/logo.php) */
+
+.logo {
+    display: inline-flex;
+    flex: none;
+}
+
 .logo a {
-    opacity: 0.5;
-    color: #d40000;
-    text-decoration: none
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding-right: 14px;
+    border-right: 1px solid var(--axis);
 }
 
-.logo span {
+.logo .brand-mark {
+    width: 58px;
+    height: 32px;
+    flex: none;
+    overflow: visible;
+    transition: filter .2s;
+}
+
+.logo .brand-word {
+    font-family: var(--font-display);
+    font-stretch: condensed;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: .05em;
+    line-height: 1;
+    color: var(--ink);
+}
+
+.logo a:hover,
+.logo a:focus {
     color: var(--color-primary);
 }
 
-.logo a:hover {
-    opacity: 0.8;
-    color: var(--color-primary);
+.logo a:hover .brand-mark,
+.logo a:focus .brand-mark {
+    filter: drop-shadow(0 0 6px var(--accent-soft)) drop-shadow(0 0 10px rgba(255, 166, 31, .35));
 }
 
-.logo a:focus span,
-.logo a:hover span {
-    color: #d40000
+.logo a:hover .brand-word,
+.logo a:focus .brand-word {
+    color: var(--accent-text);
+}
+
+@media (max-width: 768px) {
+    .logo .brand-word {
+        display: none
+    }
+}
+
+/* login / standalone pages */
+.form-login .logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+
+.form-login .logo a {
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 0;
+    border-right: none;
+}
+
+.form-login .logo .brand-mark {
+    width: 132px;
+    height: 74px;
+}
+
+.form-login .logo .brand-word {
+    display: inline;
+    font-size: 34px;
 }

@@ -1,22 +1,36 @@
 fieldset {
-    border: 1px solid #ddd;
+    border: 1px solid var(--ring);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    padding: 6px 16px 16px;
     margin-top: 10px
 }
 
 legend {
-    font-weight: 500;
-    font-size: 1.2em
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 0 6px;
+    color: var(--accent-text)
 }
 
 label {
     cursor: pointer;
     display: block;
-    margin-top: 10px;
-    font-weight: 400
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: var(--ink-2)
 }
 
-input, textarea {
-    font-family: sans-serif;
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--accent);
+}
+
+input, textarea, select {
+    font-family: var(--font-ui);
+    color: var(--color-primary);
     background-color: var(--input-background-color);
 }
 
@@ -25,14 +39,16 @@ input[type="date"],
 input[type="email"],
 input[type="password"],
 input[type="text"]:not(.input-addon-field) {
-    color: var(--color-light);
+    color: var(--color-primary);
     border: 1px solid var(--input-border-color);
+    border-radius: var(--radius-sm);
     width: 300px;
     max-width: 95%;
     font-size: 1em;
-    height: 25px;
-    padding-bottom: 0;
-    padding-left: 4px;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    transition: border-color .15s, box-shadow .15s;
     -webkit-appearance: none;
     -moz-appearance: none
 }
@@ -53,11 +69,11 @@ input[type="text"]:focus {
     color: var(--input-focus-color);
     border-color: var(--input-focus-border-color);
     outline: 0;
-    box-shadow: 0 0 8px var(--input-focus-shadow-color);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-color);
 }
 
 input[type="number"] {
-    width: 70px
+    width: 80px
 }
 
 input[type="text"]:not(.input-addon-field).form-numeric {
@@ -81,12 +97,16 @@ textarea:focus {
     color: var(--input-focus-color);
     border-color: var(--input-focus-border-color);
     outline: 0;
-    box-shadow: 0 0 8px var(--input-focus-shadow-color);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-color);
 }
 
 textarea {
-    padding: 4px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    line-height: 1.45;
     border: 1px solid var(--input-border-color);
+    border-radius: var(--radius-sm);
+    transition: border-color .15s, box-shadow .15s;
     width: 400px;
     max-width: 99%;
     height: 200px;
@@ -99,11 +119,21 @@ textarea::placeholder {
 
 select {
     font-size: 1.0em;
-    max-width: 95%
+    max-width: 95%;
+    min-height: 34px;
+    padding: 0 8px;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--radius-sm);
+}
+
+select[multiple] {
+    padding: 4px;
 }
 
 select:focus {
-    outline: 0
+    outline: 0;
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-color);
 }
 
 select[multiple] {
@@ -118,13 +148,72 @@ span.select2-container {
     margin-top: 2px
 }
 
+/* select2 (vendor) in the inslopnia palette */
+.select2-dropdown,
+.select2-close-mask {
+    background-color: var(--surface);
+}
+
+.select2-dropdown {
+    border-color: var(--ring-strong);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+    color: var(--color-primary);
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
+    background-color: var(--input-background-color);
+    border-color: var(--input-border-color);
+    border-radius: var(--radius-sm);
+    min-height: 34px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered,
+.select2-container--classic .select2-selection--single .select2-selection__rendered {
+    line-height: 32px;
+    color: var(--color-primary);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 32px;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--input-focus-border-color);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--surface-2);
+    border-color: var(--ring-strong);
+    border-radius: 999px;
+    color: var(--color-primary);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field,
+.select2-container--default .select2-search--inline .select2-search__field {
+    background: var(--input-background-color);
+    color: var(--color-primary);
+    border-color: var(--input-border-color);
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: var(--surface-2);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+}
+
 .form-actions {
     padding-top: 20px;
     clear: both
 }
 
 .form-required {
-    color: red;
+    color: var(--critical);
     padding-left: 5px;
     font-weight: bold
 }
@@ -141,13 +230,14 @@ input[type="text"].form-max-width {
 
 input.form-error,
 textarea.form-error {
-    border: 2px solid var(--form-error-color);
+    border: 1px solid var(--form-error-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--form-error-color) 18%, transparent);
 }
 
 input.form-error:focus,
 textarea.form-error:focus {
-    box-shadow: none;
-    border: 2px solid var(--form-error-color)
+    border: 1px solid var(--form-error-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--form-error-color) 28%, transparent);
 }
 
 .form-errors {
@@ -160,15 +250,17 @@ ul.form-errors li {
 }
 
 .form-help {
-    font-size: 0.8em;
+    font-size: 0.82em;
     color: var(--form-help-color);
+    margin-top: 4px;
     margin-bottom: 15px
 }
 
 .form-inline {
     padding: 0;
     margin: 0;
-    border: none
+    border: none;
+    background: none
 }
 
 .form-inline label {
@@ -219,12 +311,32 @@ ul.form-errors li {
 
 .form-login {
     max-width: 350px;
-    margin: 5% auto 0
+    margin: 6% auto 0;
+    padding: 30px 32px 26px;
+    background: var(--surface);
+    border: 1px solid var(--ring);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+}
+
+.form-login input[type="text"],
+.form-login input[type="password"] {
+    width: 100%;
+    max-width: 100%;
+}
+
+.form-login .form-actions .btn {
+    width: 100%;
+}
+
+.form-login .form-required {
+    display: none
 }
 
 @media (max-width: 480px) {
     .form-login {
-        margin-left: 5px
+        margin: 16px;
+        padding: 22px 18px
     }
 }
 
@@ -245,4 +357,121 @@ ul.form-errors li {
 
 .reset-password a {
     color: var(--color-light);
+}
+
+/* jQuery UI (vendor: datepicker, autocomplete, dialogs) in the inslopnia palette */
+.ui-widget,
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    font-family: var(--font-ui);
+}
+
+.ui-widget.ui-widget-content,
+.ui-widget-content {
+    background: var(--surface);
+    color: var(--color-primary);
+    border-color: var(--ring-strong);
+}
+
+.ui-datepicker,
+.ui-autocomplete {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 6px;
+}
+
+.ui-widget-header {
+    background: var(--surface-2);
+    color: var(--color-primary);
+    border-color: var(--ring);
+    border-radius: var(--radius-sm);
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button {
+    background: var(--surface-2);
+    color: var(--color-primary);
+    border-color: var(--ring);
+    border-radius: 6px;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-button:hover,
+.ui-button:focus {
+    background: var(--hl);
+    color: var(--accent-text);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--ring));
+}
+
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+    background: var(--accent-soft);
+    color: var(--color-primary);
+    border-color: var(--accent);
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: transparent;
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    cursor: pointer;
+}
+
+.ui-datepicker .ui-datepicker-prev-hover,
+.ui-datepicker .ui-datepicker-next-hover {
+    background: var(--hl);
+    border-color: transparent;
+}
+
+.ui-datepicker-buttonpane button {
+    border-radius: 999px;
+}
+
+.ui-widget-overlay {
+    background: var(--backdrop);
+    opacity: 1;
+}
+
+/* c3 charts (analytics) */
+.c3 text {
+    fill: var(--ink-2);
+}
+
+.c3 path.domain,
+.c3 .tick line {
+    stroke: var(--axis);
+}
+
+.c3-tooltip th {
+    background-color: var(--surface-2);
+    color: var(--color-primary);
+}
+
+.c3-tooltip td {
+    background-color: var(--surface);
+    border-color: var(--grid);
+}
+
+.c3-tooltip {
+    box-shadow: var(--shadow);
+    opacity: 1;
 }

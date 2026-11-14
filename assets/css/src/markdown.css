@@ -23,11 +23,25 @@
     margin-bottom: 10px
 }
 
-.markdown pre {
-    background: #fbfbfb;
-    padding: 10px;
+.markdown code {
+    font-size: 0.9em;
+    padding: 1px 5px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    background: var(--surface-2);
+    border: 1px solid var(--ring)
+}
+
+.markdown pre code {
+    padding: 0;
+    border: none;
+    background: none
+}
+
+.markdown pre {
+    background: var(--surface-2);
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--ring);
     overflow: auto;
     overflow-wrap: initial;
     color: var(--color-medium);
@@ -35,7 +49,8 @@
 
 .markdown blockquote {
     font-style: italic;
-    border-left: 3px solid #ddd;
+    border-left: 3px solid var(--accent);
+    color: var(--ink-2);
     padding-left: 10px;
     margin-bottom: 10px;
     margin-left: 20px
@@ -44,5 +59,11 @@
 .markdown img {
     display: block;
     max-width: 80%;
-    margin-top: 10px
+    margin-top: 10px;
+    border-radius: var(--radius-sm)
+}
+
+.markdown table th,
+.markdown table td {
+    border-color: var(--grid)
 }

@@ -1,9 +1,9 @@
 .icon-success {
-    color: #468847
+    color: var(--good)
 }
 
 .icon-error {
-    color: #b94a48
+    color: var(--critical)
 }
 
 .icon-fade-out {

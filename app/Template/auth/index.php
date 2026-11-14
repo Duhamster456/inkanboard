@@ -1,5 +1,7 @@
 <div class="form-login">
 
+    <?= $this->render('header/logo') ?>
+
     <?= $this->hook->render('template:auth:login-form:before') ?>
 
     <?php if (isset($errors['login'])): ?>

@@ -7,16 +7,26 @@
 }
 
 #task-summary h2 {
-    color: var(--color-medium);
-    font-size: 1.6em;
+    color: var(--color-primary);
+    font-size: 1.7em;
     margin-top: 0;
     padding-top: 0
 }
 
 .task-summary-container {
-    border: 2px solid #000;
-    border-radius: 8px;
-    padding: 10px
+    border: 1px solid var(--ring-strong);
+    border-left-width: 5px;
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    background-color: var(--surface);
+    background-image: linear-gradient(var(--card-veil), var(--card-veil));
+    box-shadow: var(--shadow-sm)
+}
+
+div.task-summary-container[class] {
+    border-top-color: var(--ring);
+    border-right-color: var(--ring);
+    border-bottom-color: var(--ring)
 }
 
 .task-summary-columns {
@@ -31,12 +41,25 @@
     }
 }
 
+.task-summary-columns {
+    gap: 16px
+}
+
 .task-summary-column {
-    color: var(--color-dark);
+    color: var(--muted);
+}
+
+.task-summary-column strong {
+    font-weight: 500;
 }
 
 .task-summary-column span {
-    color: var(--color-medium);
+    color: var(--color-primary);
+}
+
+.task-summary-column a,
+.task-summary-column a:hover {
+    color: var(--accent-text);
 }
 
 .task-summary-column li {
@@ -47,5 +70,6 @@
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px dotted #ccc
+    border: 1px dashed var(--ring-strong);
+    border-radius: var(--radius-md)
 }

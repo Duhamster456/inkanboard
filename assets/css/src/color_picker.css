@@ -11,7 +11,8 @@
     width: 18px;
     height: 18px;
     margin-right: 5px;
-    border: 1px solid #000
+    border: 1px solid var(--ring-strong);
+    border-radius: 4px
 }
 
 .color-picker-label {

@@ -1,8 +1,19 @@
+.task-tags ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 3px
+}
+
 .task-tags li {
     display: inline-block;
-    margin: 3px 3px 0 0;
-    padding: 1px 3px 1px 3px;
+    margin: 0;
+    padding: 0 8px;
+    font-size: 0.85em;
+    line-height: 1.6;
     color: var(--color-primary);
-    border: 1px solid #333;
-    border-radius: 4px
+    border: 1px solid var(--ring-strong);
+    border-radius: 999px;
+    background-color: var(--surface-2);
+    background-image: linear-gradient(var(--card-veil), var(--card-veil))
 }

@@ -4,12 +4,12 @@
 }
 
 .dashboard-table-link {
-    font-weight: bold;
-    color: #000;
+    font-weight: 600;
+    color: var(--color-primary);
     text-decoration: none
 }
 
 .dashboard-table-link:focus,
 .dashboard-table-link:hover {
-    color: var(--color-light);
+    color: var(--accent-text);
 }

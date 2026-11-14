@@ -3,27 +3,46 @@
     padding-right: 5px
 }
 
+/* The task colour (inline CSS from ColorModel) paints background + border.
+   A veil calms the pastel, the left edge keeps the full hue. */
 .task-board {
     position: relative;
-    margin-bottom: 4px;
-    border: 1px solid #000;
-    padding: 2px;
+    margin-bottom: 8px;
+    border: 1px solid var(--ring-strong);
+    border-left-width: 4px;
+    padding: 6px 8px 6px 9px;
     word-wrap: break-word;
     font-size: 0.9em;
-    border-radius: 6px
+    border-radius: 10px;
+    background-color: var(--surface);
+    background-image: linear-gradient(var(--card-veil), var(--card-veil));
+    box-shadow: var(--shadow-sm);
+    color: var(--ink);
+    transition: box-shadow .15s
+}
+
+div.task-board[class] {
+    border-top-color: var(--ring);
+    border-right-color: var(--ring);
+    border-bottom-color: var(--ring)
+}
+
+.task-board:hover {
+    box-shadow: var(--shadow)
 }
 
 div.task-board-recent {
-    border-width: 2px
+    box-shadow: 0 0 0 1px var(--accent-soft), var(--shadow-sm)
 }
 
 div.task-board-status-closed {
     user-select: none;
-    border: 1px dotted #555
+    opacity: .75;
+    border-style: dashed
 }
 
 .task-board a {
-    color: #000;
+    color: var(--ink);
     text-decoration: none
 }
 
@@ -35,11 +54,14 @@ div.task-board-status-closed {
 
 .task-board-title {
     margin-top: 5px;
-    margin-bottom: 8px
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 1.05em;
+    line-height: 1.35
 }
 
 .task-board-title a:hover {
-    text-decoration: underline
+    color: var(--accent-text)
 }
 
 .task-board-saving-state {
@@ -51,7 +73,7 @@ div.task-board-status-closed {
     margin: auto;
     width: 100%;
     text-align: center;
-    color: #000
+    color: var(--accent)
 }
 
 .task-board-avatars {

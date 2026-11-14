@@ -6,7 +6,7 @@
 .pagination-showing {
     margin-right: 5px;
     padding-right: 5px;
-    border-right: 1px solid #999
+    border-right: 1px solid var(--axis)
 }
 
 .pagination-next {

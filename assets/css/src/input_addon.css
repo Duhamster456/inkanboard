@@ -12,11 +12,19 @@
 }
 
 .input-addon-field:first-child {
-    border-radius: 5px 0 0 5px
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm)
 }
 
 .input-addon-field:last-child {
-    border-radius: 0 5px 5px 0
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0
+}
+
+.input-addon-field:focus {
+    outline: 0;
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-color);
+    position: relative;
+    z-index: 1
 }
 
 .input-addon-item {
@@ -27,11 +35,11 @@
 }
 
 .input-addon-item:first-child {
-    border-radius: 5px 0 0 5px
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm)
 }
 
 .input-addon-item:last-child {
-    border-radius: 0 5px 5px 0
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0
 }
 
 @media (max-width: 480px) {
@@ -42,8 +50,12 @@
 
 .input-addon-field,
 .input-addon-item {
-    border: 1px solid rgba(147, 128, 108, 0.25);
-    padding: 4px 0.75em
+    border: 1px solid var(--input-border-color);
+    padding: 0 0.75em;
+    min-height: 34px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center
 }
 
 .input-addon-field:not(:first-child),

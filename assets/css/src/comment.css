@@ -9,27 +9,34 @@
 }
 
 .comment-sorting a:hover {
-    color: var(--color-light);
+    color: var(--accent-text);
 }
 
 .comment {
-    padding: 5px;
-    margin-bottom: 15px
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--ring);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    transition: background .12s
 }
 
 .comment-title {
-    border-bottom: 1px dotted var(--comment-title-border-color);
-    margin-left: 55px
+    border-bottom: 1px solid var(--comment-title-border-color);
+    padding-bottom: 4px;
+    margin-left: 58px
 }
 
 .comment-date {
     color: var(--color-light);
-    font-weight: 200
+    font-weight: 400;
+    font-size: 0.85em
 }
 
 .comment-visibility {
     color: var(--color-light);
-    font-weight: 200
+    font-weight: 400;
+    font-size: 0.85em
 }
 
 .comment-actions {
@@ -37,7 +44,8 @@
 }
 
 .comment-content {
-    margin-left: 55px
+    margin-left: 58px;
+    margin-top: 6px
 }
 
 .comments .text-editor textarea {
@@ -50,7 +58,8 @@
 
 .comments .comment-highlighted {
     background-color: var(--comment-highlighted-background-color);
-    border: 2px solid var(--comment-highlighted-border-color);
+    border: 1px solid var(--comment-highlighted-border-color);
+    box-shadow: var(--sun-glow);
 }
 
 .comments .comment-highlighted:hover {

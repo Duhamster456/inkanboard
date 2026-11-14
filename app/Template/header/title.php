@@ -1,7 +1,5 @@
 <h1>
-    <span class="logo">
-        <?= $this->url->link('K<span>B</span>', 'DashboardController', 'show', array(), false, '', t('Dashboard')) ?>
-    </span>
+    <?= $this->render('header/logo') ?>
     <span class="title">
         <?php if (! empty($project) && ! empty($task)): ?>
             <?= $this->url->link($this->text->e($project['name']), 'BoardViewController', 'show', array('project_id' => $project['id'])) ?>

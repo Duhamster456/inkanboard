@@ -11,13 +11,12 @@
 }
 
 .task-list-avatars .task-avatar-assignee {
-    font-weight: 300;
-    color: #999
+    font-weight: 400;
+    color: var(--muted)
 }
 
 .task-list-avatars:hover .task-avatar-assignee {
-    font-weight: 400;
-    color: #000
+    color: var(--color-primary)
 }
 
 .task-board-icons,
@@ -54,7 +53,7 @@
 
 .task-board-icons .flag-milestone,
 .task-list-icons .flag-milestone {
-    color: green
+    color: var(--good)
 }
 
 .task-board-icons {
@@ -62,18 +61,22 @@
 }
 
 .task-board-icons a {
-    opacity: 0.5
+    opacity: 0.7
 }
 
 .task-board-icons span {
-    opacity: 0.5;
+    opacity: 0.7;
     margin-left: 4px
 }
 
 .task-board-icons a:hover,
 .task-board-icons span.tooltip:hover {
-    opacity: 1.0;
-    font-weight: bold
+    opacity: 1.0
+}
+
+.task-board-icons .fa,
+.task-board .dropdown-menu .fa {
+    color: inherit
 }
 
 .task-board-icons .task-board-icons-row {
@@ -106,22 +109,24 @@
 }
 
 span.task-icon-age-total {
-    border: 1px solid #e5e5e5;
-    padding: 1px 3px 1px 3px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px
+    border: 1px solid var(--ring-strong);
+    padding: 0 5px;
+    font-family: var(--font-mono);
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px
 }
 
 span.task-icon-age-column {
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--ring-strong);
     border-left: none;
     margin-left: -5px;
-    padding: 1px 3px 1px 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px
+    padding: 0 5px;
+    font-family: var(--font-mono);
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px
 }
 
 .task-board span.task-icon-age-total,
 .task-board span.task-icon-age-column {
-    border-color: #666
+    border-color: var(--ring-strong)
 }

@@ -1,7 +1,7 @@
 .subtask-cell {
     padding: 4px 10px;
-    border-top: 1px dotted #dedede;
-    border-left: 1px dotted #dedede;
+    border-top: 1px solid var(--grid);
+    border-left: 1px solid var(--grid);
     display: table-cell;
     vertical-align: middle
 }

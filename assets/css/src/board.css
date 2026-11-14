@@ -13,7 +13,54 @@
 
 #board {
     table-layout: fixed;
-    margin-bottom: 0
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 8px 0
+}
+
+#board > tbody > tr > th,
+#board > tbody > tr > td {
+    border: none
+}
+
+#board th.board-column-header {
+    background: var(--surface-2);
+    border: 1px solid var(--ring);
+    border-bottom: none;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: 9px 10px;
+    font-size: 1.02em
+}
+
+#board td.board-column-header-first,
+#board th.board-column-header-first {
+    background: none;
+    border: none
+}
+
+#board tr.board-swimlane > td {
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+    border: 1px solid var(--ring);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 8px
+}
+
+#board tr.board-swimlane > td.board-task-list-limit,
+#board tr.board-swimlane.board-task-list-limit > td {
+    background: var(--board-task-limit-color)
+}
+
+#board th.board-swimlane-header {
+    background: none;
+    border: none;
+    padding: 14px 4px 6px;
+    font-family: var(--font-display);
+    color: var(--accent-text)
+}
+
+.board-swimlane-title {
+    font-weight: 600
 }
 
 #board tr.board-swimlane-columns-first {
@@ -55,11 +102,22 @@
 
 .board-column-expanded-header {
     display: flex;
-    align-items: center
+    align-items: center;
+    gap: 6px
+}
+
+.board-column-title .dropdown-menu {
+    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-weight: 600
+}
+
+.board-column-title .dropdown-menu:hover {
+    color: var(--accent-text)
 }
 
 td.board-column-task-collapsed {
-    font-weight: bold;
+    font-weight: 600;
     background-color: var(--table-header-background-color)
 }
 
@@ -89,25 +147,45 @@ td.board-column-task-collapsed {
 
 .board-add-icon {
     float: left;
-    padding: 0 5px
+    padding: 0 2px 0 0
 }
 
-.board-add-icon i {
-    text-decoration: none;
-    color: var(--link-color-primary);
-    font-size: 1.4em
+.board-add-icon a {
+    display: inline-grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    transition: background .15s, box-shadow .15s
 }
 
-.board-add-icon i:focus,
-.board-add-icon i:hover {
+.board-add-icon a:hover,
+.board-add-icon a:focus {
+    background: var(--accent);
+    box-shadow: var(--sun-glow)
+}
+
+.board-add-icon i,
+.board-add-icon a .fa {
     text-decoration: none;
-    color: red
+    color: var(--accent-text);
+    font-size: 1em;
+    padding: 0
+}
+
+.board-add-icon a:hover i,
+.board-add-icon a:focus i {
+    text-decoration: none;
+    color: var(--accent-ink)
 }
 
 .board-column-header-task-count {
     color: var(--color-light);
+    font-variant-numeric: tabular-nums;
     font-weight: normal;
-    font-size: 0.85em
+    font-size: 0.82em;
+    white-space: nowrap
 }
 
 a.board-swimlane-toggle {
@@ -116,7 +194,7 @@ a.board-swimlane-toggle {
 
 a.board-swimlane-toggle:hover,
 a.board-swimlane-toggle:focus {
-    color: #000;
+    color: var(--accent-text);
     text-decoration: none;
     border: none
 }
@@ -148,10 +226,12 @@ a.board-swimlane-toggle:focus {
 .draggable-placeholder {
     border: 2px dashed var(--draggable-placeholder-border-color);
     background: var(--draggable-placeholder-background-color);
+    border-radius: 10px;
     height: 70px;
     margin-bottom: 10px
 }
 
 div.draggable-item-selected {
-    border: 1px solid #000
+    border: 1px solid var(--draggable-item-selected-border-color);
+    box-shadow: var(--sun-glow)
 }

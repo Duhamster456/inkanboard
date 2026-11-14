@@ -1,6 +1,8 @@
 a {
     color: var(--link-color-primary);
     border: none;
+    text-decoration: none;
+    transition: color .15s;
 }
 
 a:focus {
@@ -9,13 +11,23 @@ a:focus {
     text-decoration: none;
 }
 
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
 a:hover {
     color: var(--link-color-hover);
     text-decoration: none;
 }
 
 a .fa {
-    color: var(--color-primary);
+    color: var(--color-medium);
     padding-right: 3px;
     text-decoration: none;
+}
+
+a:hover .fa {
+    color: var(--accent-text);
 }

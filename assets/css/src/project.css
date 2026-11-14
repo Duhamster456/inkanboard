@@ -1,6 +1,6 @@
 .js-project-creation-options {
     max-width: 500px;
-    border-left: 3px dotted #efefef;
+    border-left: 3px solid var(--accent-soft);
     margin-top: 20px;
     padding-left: 15px;
     padding-bottom: 5px;
@@ -32,8 +32,11 @@
     text-align: center;
     margin-right: 3%;
     margin-top: 5px;
-    padding: 3px 15px 3px 15px;
-    border: 1px dashed #ddd
+    padding: 8px 20px;
+    border: 1px solid var(--ring);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm)
 }
 
 @media (max-width: 480px) {
@@ -47,7 +50,9 @@
 }
 
 .project-overview-column strong {
-    color: var(--color-medium);
+    color: var(--accent-text);
+    font-family: var(--font-display);
+    font-size: 1.3em;
     display: block
 }
 
@@ -58,12 +63,18 @@
 }
 
 .project-header {
-    margin-bottom: 8px
+    margin-bottom: 12px
+}
+
+.project-header::after {
+    content: "";
+    display: block;
+    clear: both
 }
 
 .project-header .dropdown-component {
-    margin-top: 4px;
-    margin-right: 5px;
+    margin-top: 8px;
+    margin-right: 8px;
     float: left
 }
 
@@ -74,8 +85,8 @@
 }
 
 .project-header .views-switcher-component {
-    margin-top: 4px;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
     float: left
 }
 

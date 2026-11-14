@@ -40,9 +40,13 @@ table.table-striped tr:nth-child(odd) {
 
 table th {
     text-align: left;
-    padding: 0.5em 3px;
+    padding: 0.55em 8px;
     border: 1px solid var(--table-border-color);
-    background-color: var(--table-header-background-color)
+    background-color: var(--table-header-background-color);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: var(--ink-2)
 }
 
 table th a {
@@ -57,7 +61,7 @@ table th a:hover {
 
 table td {
     border: 1px solid var(--table-border-color);
-    padding: 0.5em 3px;
+    padding: 0.5em 8px;
     vertical-align: top
 }
 
@@ -69,11 +73,12 @@ table td .color-picker-square  {
     display: inline-block;
     width: 12px;
     height: 12px;
-    border: 1px solid #000
+    border: 1px solid var(--ring-strong);
+    border-radius: 3px
 }
 
 .task-table a {
-    color: #000;
+    color: var(--color-primary);
 }
 
 .column-1 {

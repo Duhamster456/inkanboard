@@ -23,47 +23,58 @@
     }
 }
 
-.views li {
-    white-space: nowrap;
+.views {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 3px;
+    gap: 2px;
     background: var(--views-background-color);
     border: 1px solid var(--views-border-color);
-    border-right: none;
-    padding: 4px 8px;
-    display: inline
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm)
+}
+
+.views li {
+    white-space: nowrap;
+    list-style: none;
+    border-radius: 999px;
+    display: inline-block
+}
+
+.views li a {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    transition: background .12s, color .12s
+}
+
+.views li:not(.active) a:hover {
+    background: var(--hl)
 }
 
 @media (max-width: 560px) {
-    .views li {
-        display: block;
-        margin-top: 5px;
-        border-radius: 5px;
-        border: 1px solid var(--views-border-color)
+    .views {
+        display: flex;
+        border-radius: var(--radius-md)
     }
 }
 
 .views li.active a {
-    font-weight: bold;
+    font-weight: 600;
     color: var(--views-active-color);
+    background: var(--accent);
     text-decoration: none
 }
 
-.views li:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px
-}
-
-.views li:last-child {
-    border-right: 1px solid var(--views-border-color);
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px
+.views li.active a .fa {
+    color: var(--views-active-color)
 }
 
 .views a {
-    color: var(--color-ligth);
+    color: var(--color-medium);
     text-decoration: none
 }
 
 .views a:hover {
-    color: var(--color-primary);
-    text-decoration: underline
+    color: var(--color-primary)
 }
