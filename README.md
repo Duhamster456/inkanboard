@@ -30,18 +30,6 @@ docker compose -f docker-compose.sqlite.yml down        # остановить (
 docker compose -f docker-compose.sqlite.yml up -d --build   # пересобрать после изменений
 ```
 
-### Другая база данных
-
-| Файл | База | Примечание |
-|---|---|---|
-| `docker-compose.sqlite.yml` | SQLite | по умолчанию, ничего настраивать не нужно |
-| `docker-compose.mysql.yml` | MariaDB 11.4 | 12.x не подходит: она иначе называет внешние ключи, и старые миграции схемы падают |
-| `docker-compose.postgres.yml` | PostgreSQL 17 | образы 18+ ожидают том по другому пути |
-
-Запускаются так же: `docker compose -f docker-compose.postgres.yml up -d --build`. Перед тем как открывать сервис наружу, поменяйте пароли базы в файле.
-
-Все варианты слушают один порт и используют одно имя контейнера, поэтому одновременно работает только один из них. Тома у них свои: `inkanboard_*`, `inkanboard-mysql_*`, `inkanboard-postgres_*`.
-
 ### Переменные compose
 
 | Переменная | По умолчанию | Что делает |
@@ -49,7 +37,10 @@ docker compose -f docker-compose.sqlite.yml up -d --build   # пересобра
 | `INKANBOARD_BIND` | `127.0.0.1` | адрес на хосте; `0.0.0.0` — слушать на всех интерфейсах |
 | `INKANBOARD_PORT` | `8001` | порт на хосте |
 | `INKANBOARD_IMAGE` | `inkanboard:local` | имя собираемого образа |
+| `INKANBOARD_CONTAINER` | `inkanboard` | имя контейнера (для второго экземпляра рядом — вместе с `-p <проект>` и другим портом) |
 | `INKANBOARD_VERSION` | `inslopnia` | версия, которая показывается в «About» и в API |
+| `INKANBOARD_MEMORY` | `1g` | лимит памяти контейнера (tmpfs-каталоги считаются в него же) |
+| `INKANBOARD_CPUS` | `1.0` | лимит CPU |
 
 ```bash
 INKANBOARD_PORT=9000 docker compose -f docker-compose.sqlite.yml up -d --build
@@ -79,17 +70,49 @@ docker cp inkanboard:/var/www/app/data/db.sqlite ./backup.sqlite
 
 Все параметры приложения описаны в `config.default.php`. Переопределить их можно двумя способами:
 
-- **переменными окружения** — их читает приложение (`DEBUG`, `DATA_DIR`, `LOG_DRIVER`, `MAIL_*`, `LDAP_*`, …);
-- **файлом `config.php`** в корне — скопируйте `config.default.php` и поменяйте нужные `define`.
+- **переменными окружения** — их читает приложение (`DEBUG`, `LOG_DRIVER`, `MAIL_*`, `LDAP_*`, …); в Docker добавьте их в секцию `environment:` сервиса `app`;
+- **файлом `data/config.php`** — скопируйте `config.default.php`, оставьте нужные `define` и положите файл в том с данными:
 
-Подключение к базе в Docker задаётся одной строкой `DATABASE_URL`, примеры есть в compose-файлах:
+```bash
+docker cp my-config.php inkanboard:/var/www/app/data/config.php
+docker restart inkanboard
+```
 
-```
-mysql://user:password@host/dbname
-postgres://user:password@host/dbname
-```
+Файл принадлежит root, а приложение не может его изменить (см. «Изоляция»). Править его — только так, снаружи.
 
 В контейнере nginx слушает 80 (наружу проброшен он) и 443 с самоподписанным сертификатом, который генерируется при старте. Для продакшена ставьте перед сервисом обычный reverse proxy с TLS.
+
+## Изоляция
+
+Безопасная конфигурация включена в `docker-compose.sqlite.yml` по умолчанию, отдельного «hardened»-варианта нет. Расчёт — что даже при RCE в приложении атакующий остаётся пользователем `nginx` в контейнере без прав, без доступа к коду и без возможности закрепиться.
+
+| Мера | Что даёт |
+|---|---|
+| PHP-FPM и nginx-воркеры работают от `nginx` | RCE в приложении — не root |
+| `cap_drop: [ALL]` + 5 нужных capabilities | у PHP-воркеров capabilities нет вообще; root-процессы (s6, cron, мастер-процессы nginx/php-fpm) могут только сменить пользователя, поправить владельца томов, занять порт 80 и сигналить своим воркерам. Нет `DAC_OVERRIDE`, `SYS_ADMIN`, `NET_RAW` и т.п. |
+| `no-new-privileges`, в образе нет SUID-бинарников | стать root из `nginx` можно только через уязвимость ядра |
+| `read_only: true` | код приложения, конфиги nginx/PHP/cron и системные файлы нельзя изменить даже root внутри контейнера |
+| tmpfs с `noexec` (`/tmp`, временные файлы nginx) | там, куда PHP может писать, нельзя запустить свой бинарник |
+| `plugins/` и `data/config.php` принадлежат root | приложение не может подложить исполняемый PHP-код, который переживёт пересоздание контейнера; `data/` — sticky-каталог, `config.php` нельзя ни изменить, ни удалить, ни подменить |
+| entrypoint меняет владельцев через `find`, не следуя симлинкам | ссылка, подложенная в том, не заставит root сменить владельца файла вне тома |
+| лимиты памяти, CPU и процессов, ротация логов | контейнер не положит машину и не забьёт диск логами |
+| порт только на `127.0.0.1` | см. «Доступ снаружи» |
+
+Плагины ставит администратор снаружи, приложению запись в `plugins/` не нужна:
+
+```bash
+docker cp MyPlugin inkanboard:/var/www/app/plugins/
+docker restart inkanboard
+```
+
+Установка плагинов из веб-интерфейса выключена по умолчанию. Если её включить (`PLUGIN_INSTALLER: "true"` в `environment:`), entrypoint отдаст `plugins/` приложению — это осознанно ослабляет пункт про закрепление.
+
+Чего Docker-средствами не закрыть:
+
+- **ядро общее с хостом** — уязвимость ядра или runtime даёт выход из контейнера; для враждебного кода нужны gVisor (`runtime: runsc`), Kata или отдельная VM, плюс `userns-remap` в настройках демона;
+- **исходящий трафик открыт** — он нужен для почты, вебхуков и превью ссылок. Встроенная защита Kanboard от SSRF (`WEBHOOK_ALLOW_PRIVATE_NETWORKS`, `EXTERNAL_LINK_ALLOW_PRIVATE_NETWORKS`, по умолчанию выключены) не даёт приложению ходить во внутренние сети, но RCE-код может;
+- **данные приложения** — база, вложения и сессии доступны процессу PHP по определению;
+- **размер тома** — лимит диска для named volume без отдельной ФС не задать.
 
 ## API
 
@@ -161,7 +184,7 @@ DATA_DIR=/tmp/inkanboard-data php -S 127.0.0.1:8001 -t . router.php
 
 ```bash
 composer install
-make test-sqlite        # также test-mysql, test-postgres
+make test-sqlite
 ```
 
 ## Make
@@ -169,7 +192,7 @@ make test-sqlite        # также test-mysql, test-postgres
 | Цель | Что делает |
 |---|---|
 | `make docker-image` | собрать `inkanboard:local` |
-| `make docker-run` | запустить его на порту 8001 (без тома, данные пропадут) |
+| `make docker-run` | запустить его на `127.0.0.1:8001` с теми же ограничениями, что в compose (без тома, данные пропадут) |
 | `make docker-sh` | shell в работающем контейнере `inkanboard` |
 | `make archive` | zip-архив текущего коммита |
 

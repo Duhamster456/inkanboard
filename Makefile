@@ -52,7 +52,7 @@ docker-images:
 		.
 
 docker-run:
-	@ docker run --rm --name=inkanboard -p $(DOCKER_PORT):80 $(DOCKER_IMAGE):$(DOCKER_TAG)
+	@ docker run --rm --name=inkanboard -p 127.0.0.1:$(DOCKER_PORT):80 		--read-only --tmpfs /run:exec,nosuid,nodev,size=16m 		--tmpfs /tmp:noexec,nosuid,nodev,size=256m --tmpfs /var/lib/nginx/tmp:noexec,nosuid,nodev,size=256m 		--cap-drop ALL --cap-add CHOWN --cap-add SETUID --cap-add SETGID --cap-add NET_BIND_SERVICE --cap-add KILL 		--security-opt no-new-privileges --memory 1g --cpus 1 --pids-limit 512 		$(DOCKER_IMAGE):$(DOCKER_TAG)
 
 docker-sh:
 	@ docker exec -ti inkanboard bash

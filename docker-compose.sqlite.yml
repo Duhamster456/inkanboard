@@ -7,6 +7,9 @@
 # Rebuild the CSS first if you changed assets/css/src: php cli css
 # Another host port: INKANBOARD_PORT=9000 docker compose -f docker-compose.sqlite.yml up -d
 # Listen on all interfaces (e.g. on a VDS without a reverse proxy): INKANBOARD_BIND=0.0.0.0
+#
+# Hardened by default (see "Изоляция" in README.md): read-only root filesystem,
+# minimal capabilities, no privilege escalation, resource limits, log rotation.
 name: inkanboard
 services:
   app:
@@ -15,7 +18,7 @@ services:
       args:
         VERSION: ${INKANBOARD_VERSION:-inslopnia}
     image: ${INKANBOARD_IMAGE:-inkanboard:local}
-    container_name: inkanboard
+    container_name: ${INKANBOARD_CONTAINER:-inkanboard}
     restart: unless-stopped
     ports:
       # localhost only by default; INKANBOARD_BIND=0.0.0.0 publishes it on every interface
@@ -23,6 +26,26 @@ services:
     volumes:
       - data:/var/www/app/data
       - plugins:/var/www/app/plugins
+    # --- isolation ---------------------------------------------------------------
+    read_only: true
+    tmpfs:
+      - /run:size=16m,exec,nosuid,nodev  # root-owned, holds the s6 service scripts
+      - /tmp:size=256m,noexec,nosuid,nodev
+      - /var/lib/nginx/tmp:size=256m,noexec,nosuid,nodev
+    cap_drop: [ALL]
+    # the root-run supervisor, cron and nginx/php-fpm masters only need to fix volume
+    # ownership, bind port 80, switch to the "nginx" user and signal their workers
+    cap_add: [CHOWN, SETUID, SETGID, NET_BIND_SERVICE, KILL]
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: ${INKANBOARD_MEMORY:-1g}
+    cpus: ${INKANBOARD_CPUS:-1.0}
+    pids_limit: 512
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 volumes:
   data:
   plugins:

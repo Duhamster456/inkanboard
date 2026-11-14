@@ -17,9 +17,10 @@ ARG VERSION
 RUN apk --no-cache --update add \
     tzdata openssl unzip nginx bash ca-certificates s6 curl ssmtp mailx php85 php85-phar php85-curl \
     php85-fpm php85-json php85-zlib php85-xml php85-dom php85-ctype php85-zip php85-iconv \
-    php85-pdo php85-pdo_mysql php85-pdo_sqlite php85-pdo_pgsql php85-mbstring php85-session php85-bcmath \
+    php85-pdo php85-pdo_sqlite php85-mbstring php85-session php85-bcmath \
     php85-gd php85-openssl php85-sockets php85-posix php85-ldap php85-simplexml php85-xmlwriter && \
     rm -rf /var/www/localhost && \
+    chown root:nginx /var/lib/nginx && chmod 750 /var/lib/nginx && \
     rm -f /etc/php85/php-fpm.d/www.conf && \
     ln -sf /usr/bin/php85 /usr/bin/php
 
