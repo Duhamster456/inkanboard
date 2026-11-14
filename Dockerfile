@@ -1,9 +1,9 @@
 FROM alpine:3.24
 
-LABEL org.opencontainers.image.source="https://github.com/kanboard/kanboard" \
-    org.opencontainers.image.title="Kanboard" \
-    org.opencontainers.image.description="Kanboard is project management software that focuses on the Kanban methodology" \
-    org.opencontainers.image.vendor="Kanboard" \
+LABEL org.opencontainers.image.source="https://github.com/Duhamster456/inkanboard" \
+    org.opencontainers.image.title="inkanboard" \
+    org.opencontainers.image.description="Kanboard fork with the inslopnia theme" \
+    org.opencontainers.image.vendor="inslopnia" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.url="https://kanboard.org" \
     org.opencontainers.image.documentation="https://docs.kanboard.org"

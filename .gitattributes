@@ -26,3 +26,8 @@ assets/js/core export-ignore
 assets/js/polyfills export-ignore
 assets/js/src export-ignore
 assets/vendor export-ignore
+
+# Files copied into the Linux image must keep LF even on Windows (core.autocrlf=true)
+docker/** text eol=lf
+Dockerfile text eol=lf
+*.sh text eol=lf

@@ -1,5 +1,6 @@
-DOCKER_IMAGE := docker.io/kanboard/kanboard
-DOCKER_TAG := main
+DOCKER_IMAGE := inkanboard
+DOCKER_TAG := local
+DOCKER_PORT := 8001
 VERSION := $(shell git rev-parse --short HEAD)
 
 .PHONY: archive test-sqlite test-mysql test-postgres sql \
@@ -51,7 +52,7 @@ docker-images:
 		.
 
 docker-run:
-	@ docker run --rm --name=kanboard -p 80:80 -p 443:443 $(DOCKER_IMAGE):$(DOCKER_TAG)
+	@ docker run --rm --name=inkanboard -p $(DOCKER_PORT):80 $(DOCKER_IMAGE):$(DOCKER_TAG)
 
 docker-sh:
-	@ docker exec -ti kanboard bash
+	@ docker exec -ti inkanboard bash
