@@ -46,6 +46,7 @@ docker compose -f docker-compose.sqlite.yml up -d --build   # пересобра
 
 | Переменная | По умолчанию | Что делает |
 |---|---|---|
+| `INKANBOARD_BIND` | `127.0.0.1` | адрес на хосте; `0.0.0.0` — слушать на всех интерфейсах |
 | `INKANBOARD_PORT` | `8001` | порт на хосте |
 | `INKANBOARD_IMAGE` | `inkanboard:local` | имя собираемого образа |
 | `INKANBOARD_VERSION` | `inslopnia` | версия, которая показывается в «About» и в API |
@@ -55,6 +56,16 @@ INKANBOARD_PORT=9000 docker compose -f docker-compose.sqlite.yml up -d --build
 ```
 
 В PowerShell: `$env:INKANBOARD_PORT = "9000"; docker compose -f docker-compose.sqlite.yml up -d --build`.
+
+### Доступ снаружи
+
+По умолчанию сервис доступен только с самой машины (`127.0.0.1:8001`). Это важно на сервере: на Linux Docker прописывает проброшенные порты прямо в iptables, в обход `ufw`/`firewalld`, так что порт на `0.0.0.0` оказывается открыт в интернет, даже если файрвол его «закрывает».
+
+Как зайти снаружи:
+
+- **reverse proxy** (nginx, Caddy) на той же машине с TLS, проксирует на `http://127.0.0.1:8001`;
+- **SSH-туннель**: `ssh -L 8001:127.0.0.1:8001 user@server`, затем <http://localhost:8001/> у себя;
+- **открыть порт осознанно**: `INKANBOARD_BIND=0.0.0.0 docker compose -f docker-compose.sqlite.yml up -d`.
 
 ### Бэкап SQLite
 
